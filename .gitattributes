@@ -1,0 +1,12 @@
+# 行尾策略：启动器.bat 必须是 CRLF，否则 cmd.exe 解析错乱（见 README）
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制文件：不要做任何行尾/编码转换
+*.exe binary
+*.zip binary
+*.gif binary
+*.png binary
+*.ico binary
+*.pyc binary
+*.docx binary

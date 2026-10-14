@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OJ 作业自动化 · 功能自查表</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 15px/1.7 -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+         max-width: 1000px; margin: 32px auto; padding: 0 20px; }
+  h1 { font-size: 22px; margin-bottom: 2px; }
+  .sub { color: #888; margin-top: 0; font-size: 13px; }
+  h2 { font-size: 17px; margin-top: 32px; padding-bottom: 6px; border-bottom: 1px solid #8884; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+  th, td { border: 1px solid #8884; padding: 6px 9px; text-align: left; vertical-align: top; }
+  th { background: #8881; font-weight: 600; white-space: nowrap; }
+  td.f { white-space: nowrap; font-family: Consolas, monospace; font-size: 13px; }
+  a { color: #2b7de9; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code { background: #8881; padding: 1px 5px; border-radius: 3px;
+         font-family: Consolas, monospace; font-size: 13px; }
+  .ok { color: #1a8a3a; font-weight: 600; white-space: nowrap; }
+  .new { color: #b06a00; font-weight: 600; white-space: nowrap; }
+  .note { background: #f0c00022; border-left: 3px solid #f0c000; padding: 10px 14px; margin: 16px 0; }
+  .big { font-size: 16px; }
+  ol, ul { padding-left: 22px; }
+</style>
+</head>
+<body>
+
+<h1>OJ 作业自动化 · 功能自查表</h1>
+<p class="sub">多助手版（DSH / WorkBuddy / TRAE CN）· 本页就在分享包根目录，链接都可直接点开</p>
+
+<div class="note">
+  <b>图例</b>：<span class="ok">已实测</span> = 我用真账号在真 OJ 上跑通过，不是只写了代码；
+  <span class="new">已实现未实测</span> = 代码在、逻辑清楚，但这次没跑那条路径。
+  右边链接点开是对应的源码/文档。
+</div>
+
+<h2>一、核心能力（全链路）</h2>
+<table>
+<tr><th>环节</th><th>能力</th><th>状态</th><th>在哪</th></tr>
+<tr><td>1 检测</td><td>拉作业列表 → 按老师过滤 → 与 state.json 去重 → 找出新作业</td>
+    <td class="ok">已实测</td>
+    <td class="f"><a href="oj_share/oj_setup_assets/oj_checker.py">oj_share/oj_setup_assets/oj_checker.py</a></td></tr>
+<tr><td>1 抓题面</td><td>进入作业（作业密码）→ 抓每题 Description/Input/Output/样例 → 存 json</td>
+    <td class="ok">已实测</td>
+    <td class="f"><a href="oj_share/oj_setup_assets/fetch_cid.py">oj_share/oj_setup_assets/fetch_cid.py</a></td></tr>
+<tr><td>2 写码</td><td>每题一份源码，命名与 OJ 题号对应</td>
+    <td class="ok">已实测</td>
+    <td class="f"><a href="oj_share/oj_setup_assets/SKILL.md">SKILL.md</a> 第 2 步</td></tr>
+<tr><td>2 本地测试</td><td>MSVC / g++ 编译 + 样例逐一比对 + 结果落盘</td>
+    <td class="ok">已实测 3/3</td>
+    <td class="f"><a href="oj_share/oj_setup_assets/build_and_test.bat">oj_share/oj_setup_assets/build_and_test.bat</a></td></tr>
+<tr><td>3 提交</td><td>登录（CSRF + MD5）→ 取验证码 → 读图 → 提交</td>
+    <td class="ok">已实测</td>
+    <td class="f"><a href="oj_share/oj_setup_assets/oj_submit.py">oj_share/oj_setup_assets/oj_submit.py</a></td></tr>
+<tr><td>3 查结果</td><td>status.php 带随机参数避免缓存，解析判定</td>
+    <td class="ok">已实测 正确100</td>
+    <td class="f"><a href="oj_share/oj_setup_assets/oj_submit.py">oj_share/oj_setup_assets/oj_submit.py</a> status</td></tr>
+<tr><td>3 校验</td><td>提交语言编号与本地编译标准一致性检查 + 扩展名告警</td>
+    <td class="ok">已实测</td>
+    <td class="f">oj_submit.py 的 <code>langs</code> / <code>LANG: ... (id=N)</code></td></tr>
+<tr><td>4 防失控</td><td>没 AC 就换方法重来，单题最多 3 遍，3 遍不过停手警告</td>
+    <td class="ok">规则已实测生效<sup>*</sup></td>
+    <td class="f"><a href="oj_share/oj_setup_assets/SKILL.md">SKILL.md</a> 第 4 步</td></tr>
+<tr><td>5 收尾</td><td>按 OJ 题号整理到收尾文件夹 + 写 汇报.md</td>
+    <td class="ok">已实测</td>
+    <td class="f">SKILL.md 第 5 步 / <a href="oj_share/oj_setup_assets/config.example.json">config.example.json</a> 的 <code>deliver_dir</code></td></tr>
+<tr><td>6 汇报</td><td>对话里报 + 落盘汇报文件</td>
+    <td class="ok">已实测</td>
+    <td class="f">SKILL.md 第 6 步</td></tr>
+<tr><td>配置</td><td>所有个人信息集中在 config.json，改密码不用改流程</td>
+    <td class="ok">已实测</td>
+    <td class="f"><a href="oj_share/oj_setup_assets/oj_config.py">oj_share/oj_setup_assets/oj_config.py</a></td></tr>
+</table>
+<p class="sub"><sup>*</sup> 本次 3 题全部一次通过，所以「换方法重来」和「3 遍停手警告」这两条分支没被真实触发；
+规则文本与判定逻辑在，属于<span class="new">已实现未实测</span>。</p>
+
+<h2>二、三种助手都支持</h2>
+<table>
+<tr><th>助手</th><th>技能包安装位置</th><th>一句话触发</th><th>本次实测</th></tr>
+<tr><td>DSH（DeepSeek Harness）</td><td class="f">~&#92;.dsh&#92;skills&#92;</td>
+    <td><code>/oj-homework-checker</code></td><td><span class="new">未在本机装</span></td></tr>
+<tr><td>WorkBuddy（腾讯）</td><td class="f">~&#92;.workbuddy&#92;skills&#92;</td>
+    <td>说一句话 / 技能面板运行</td><td><span class="ok">已装并更新到新版</span></td></tr>
+<tr><td>TRAE CN（字节）</td><td class="f">~&#92;.trae-cn&#92;skills&#92;</td>
+    <td><code>/oj-homework-checker</code></td><td><span class="new">未在本机装</span></td></tr>
+</table>
+<p>技能包是同一套 <code>SKILL.md</code> 格式，配置助手按所选宿主自动改写措辞、安装路径、触发方式。</p>
+
+<h2>三、配置助手（发给别人的入口）</h2>
+<table>
+<tr><th>步骤</th><th>做什么</th><th>状态</th><th>在哪</th></tr>
+<tr><td>第 0 步</td><td>选助手（1 DSH / 2 WorkBuddy / 3 TRAE CN），显示是否已安装</td>
+    <td class="ok">已实测</td><td class="f"><a href="oj_share/oj_setup.py">oj_share/oj_setup.py</a> <code>choose_host()</code></td></tr>
+<tr><td>第 0 步・d</td><td>去官网查 WorkBuddy 最新版并下载安装包（带进度、存到下载目录）</td>
+    <td class="new">已实现未实测<sup>†</sup></td>
+    <td class="f">oj_setup.py <code>download_workbuddy()</code></td></tr>
+<tr><td>第 0 步・?</td><td>查看对应助手的安装指引</td><td class="ok">已实测</td>
+    <td class="f">oj_setup.py <code>show_install_guide()</code></td></tr>
+<tr><td>第 1 步</td><td>检测：助手 / Python（含宿主自带）/ C++ 编译器 / 能否访问 OJ</td>
+    <td class="ok">已实测</td><td class="f">oj_setup.py <code>env_report()</code></td></tr>
+<tr><td>第 2 步</td><td>填学号、密码（隐藏输入）、老师、提交语言、收尾文件夹</td>
+    <td class="ok">已实测</td><td class="f">oj_setup.py <code>ask_config()</code></td></tr>
+<tr><td>第 3 步</td><td>写 config.json + state.json、释放脚本、装技能包、生成任务内容</td>
+    <td class="ok">已实测</td><td class="f">oj_setup.py <code>deploy()</code></td></tr>
+<tr><td>收尾</td><td>给出触发口令 + 完整任务内容 + 会读什么会出什么</td>
+    <td class="ok">已实测</td><td class="f">oj_setup.py <code>handoff()</code></td></tr>
+<tr><td>重复运行</td><td>发现已配置过会提示，输 r 才强制重配</td>
+    <td class="new">已实现未实测</td><td class="f">oj_setup.py <code>find_existing_config()</code></td></tr>
+</table>
+<p class="sub"><sup>†</sup> 下载路径需要真的拉 400+ MB 安装包，本次没在无人值守下跑；直链抓取逻辑与失败兜底（转官网）都在。</p>
+
+<h2>四、健壮性（踩过的坑都修了）</h2>
+<table>
+<tr><th>问题</th><th>后果</th><th>修法</th><th>状态</th></tr>
+<tr><td>OJ 状态字段含不换行空格 <code>\xa0</code>，GBK 控制台 print 崩</td>
+    <td><b>脚本退出码 1 → AI 误判失败并重试</b></td>
+    <td>三个脚本顶部加 <code>_setup_console()</code>：控制台代码页 65001 + 流 reconfigure 成 UTF-8</td>
+    <td class="ok">已实测修复</td></tr>
+<tr><td>打包成 exe 后 stdin/stdout 未锁 UTF-8</td>
+    <td>中文输入被按 GBK 解码成代理字符，写 config.json 直接崩</td>
+    <td>启动时把三个标准流都锁成 UTF-8</td>
+    <td class="ok">已实测修复</td></tr>
+<tr><td>用 <code>getpass</code> 读密码</td>
+    <td>stdin 被重定向时它绕过 stdin 找控制台：挂死或偷吃一行，后面问答全错位</td>
+    <td>改自实现：终端隐藏输入（msvcrt 打星号），非终端一律老实读 stdin</td>
+    <td class="ok">已实测修复</td></tr>
+<tr><td>提示串未 flush</td><td>管道输入时提示与读取顺序错位</td>
+    <td>统一走 <code>ask_input()</code>，先 flush 再读</td>
+    <td class="ok">已实测修复</td></tr>
+<tr><td><code>fetch1766.py</code> 里 cid 写死</td>
+    <td>每换一次作业 AI 都得临时写抓题脚本</td>
+    <td>参数化成 <code>fetch_cid.py &lt;cid&gt;</code></td>
+    <td class="ok">已实测</td></tr>
+<tr><td>向导漏释放 <code>fetch1766.py</code></td>
+    <td>prompt 引用了不存在的文件</td>
+    <td>补进随包资源清单</td>
+    <td class="ok">已实测</td></tr>
+</table>
+
+<h2>五、本次实测记录</h2>
+<p>cid 1778「2026-2027-1【数据结构-实验1-3 栈的基本操作】」（老师姓名与班级已隐去）</p>
+<table>
+<tr><th>题号</th><th>题目</th><th>本地样例</th><th>验证码</th><th>OJ 判定</th><th>提交号</th></tr>
+<tr><td class="f">1-1-a</td><td>顺序栈：初始化/入栈/出栈/判空</td><td class="ok">通过</td>
+    <td class="f">6873 一次过</td><td class="ok">正确100</td><td class="f">556376</td></tr>
+<tr><td class="f">1-1-b</td><td>栈的应用：数制转换</td><td class="ok">通过</td>
+    <td class="f">4996 一次过</td><td class="ok">正确100</td><td class="f">556379</td></tr>
+<tr><td class="f">1-1-c</td><td>双端共享栈基本操作</td><td class="ok">通过</td>
+    <td class="f">4822 一次过</td><td class="ok">正确100</td><td class="f">556380</td></tr>
+</table>
+<p><b>3/3 全部通过 ✅，0 次重试。</b>
+状态页：<code>http://114.55.147.180/status.php?cid=1778</code>（user_id 已隐去）</p>
+<p>产出：<code>%USERPROFILE%\Desktop\OJ作业\1-3\</code> ——
+<code>1-1-a.cpp</code> / <code>1-1-b.cpp</code> / <code>1-1-c.cpp</code> / <code>汇报.md</code></p>
+
+<h2>六、启动器（本机怎么用）</h2>
+<table>
+<tr><th>入口</th><th>位置</th><th>作用</th></tr>
+<tr><td><b>启动器.bat</b></td>
+    <td class="f">桌面&#92;OJ作业自动化&#92;启动器.bat</td>
+    <td>双击打开配置助手。菜单：检测环境 / 一键配置 / <b>立刻跑一次检测</b> / 查看配置 / 打开目录 / 安装指引 / 换宿主 / 下载 WorkBuddy</td></tr>
+<tr><td>配置助手.exe</td><td class="f">桌面&#92;OJ作业自动化&#92; + 分享包根目录</td>
+    <td>和启动器等效，双击直接进</td></tr>
+<tr><td>功能自查表.html</td><td class="f">桌面&#92;OJ作业自动化&#92;</td>
+    <td>本页，随时可查</td></tr>
+</table>
+<p><b>注意</b>：启动器要和 exe 放同一个文件夹。批处理必须是 CRLF 行尾——用会改成 LF 的编辑器保存会让 cmd 解析错乱。</p>
+
+<h2>七、本机实际装在哪</h2>
+<table>
+<tr><th>东西</th><th>路径</th><th>状态</th></tr>
+<tr><td>DSH 技能包</td><td class="f">%USERPROFILE%&#92;.dsh&#92;skills&#92;oj-homework-checker&#92;</td><td class="ok">已装</td></tr>
+<tr><td>WorkBuddy 技能包</td><td class="f">%USERPROFILE%&#92;.workbuddy&#92;skills&#92;oj-homework-checker&#92;</td><td class="ok">已装</td></tr>
+<tr><td>TRAE CN 技能包</td><td class="f">%USERPROFILE%&#92;.trae-cn&#92;skills&#92;</td><td class="new">未装（本机没装 TRAE CN）</td></tr>
+<tr><td>DSH 工作目录</td><td class="f">%USERPROFILE%&#92;dsh-oj&#92;oj_homework&#92;</td><td class="ok">已配置</td></tr>
+<tr><td>WorkBuddy 工作目录</td><td class="f">%USERPROFILE%&#92;WorkBuddy&#92;oj_homework&#92;</td><td class="ok">已配置（最早那份）</td></tr>
+<tr><td>收尾文件夹</td><td class="f">%USERPROFILE%&#92;Desktop&#92;OJ作业&#92;</td><td class="ok">已配置，已有 1-3&#92; 产出</td></tr>
+<tr><td>分享包源</td><td class="f">（本机路径已隐去）</td><td class="ok">exe / zip / 源码都在这</td></tr>
+</table>
+<p>触发技能：在 DSH 里 <code>/oj-homework-checker</code>，或说「用 oj-homework-checker 技能看看老师有没有发新作业」。</p>
+
+<h2>八、关于防火墙 / SmartScreen 弹窗</h2>
+<div class="note">
+  <b>先说清楚：本工具不开任何端口、不监听任何东西。</b>
+  代码里没有 socket / bind / listen，只做出站 HTTP（访问 OJ 查作业、下载 WorkBuddy 安装包）。
+  所以不存在「入站规则」需要放行，弹窗不是"程序要当服务器"引起的。
+</div>
+<table>
+<tr><th>弹窗</th><th>真正原因</th><th>怎么处理</th></tr>
+<tr><td>「Windows  Defender 防火墙已阻止此应用的部分功能」/ 是否允许访问网络</td>
+    <td>系统看到一个<b>没有版本信息、没有签名</b>的 exe 要联网，就按"未知程序"问你一次</td>
+    <td>勾 <b>专用网络</b> 即可（不用勾公用网络）。直接关掉也行，它不影响出站访问。</td></tr>
+<tr><td>「Windows 已保护你的电脑」蓝色 SmartScreen</td>
+    <td>exe 没数字签名，且下载来源是"Internet 区域"标记</td>
+    <td>点「更多信息」→「仍要运行」；或右键 exe → 属性 → 勾「解除锁定」</td></tr>
+<tr><td>杀软报可疑</td>
+    <td>PyInstaller 打包的 exe 被启发式规则误判（这类打包器常被滥用）</td>
+    <td>加个排除项，或改用下面的 Python 方式跑</td></tr>
+</table>
+
+<h3>已经做的两个改进</h3>
+<ol>
+<li><b>给 exe 加了版本信息与 manifest</b>：现在系统能读到
+    <code>FileDescription / ProductName / CompanyName / FileVersion</code>，
+    不再是一个"无名可执行文件"；manifest 声明 <code>asInvoker</code>（不要管理员权限），
+    减少 UAC 与安全软件告警。</li>
+<li><b>启动器优先用 python.exe 跑源码</b>：<code>启动器.bat</code> 会先找 Python
+    （先 WorkBuddy 自带的，再 PATH 里的），找到就
+    <code>python oj_share\oj_setup.py</code>。这时联网的是<b>已受信任的 python.exe</b>，
+    Windows 不会为它弹"未知程序"对话框。找不到 Python 才回退到 exe。</li>
+</ol>
+<p>想彻底不要弹窗，就保持 <code>oj_share\</code> 文件夹和启动器放在一起（分享包里就是这么放的）。</p>
+
+<h2>九、文档</h2>
+<ul>
+<li><a href="先看这里.txt">先看这里.txt</a> —— 拿到包第一眼看的</li>
+<li><a href="oj_share/安装与使用说明.md">安装与使用说明.md</a> —— 三宿主对照表 + 4 步安装 + 六步流程</li>
+<li><a href="oj_share/自动化任务内容-模板.md">自动化任务内容-模板.md</a> —— 任务内容模板</li>
+<li><a href="oj_share/oj_setup_assets/SKILL.md">SKILL.md</a> —— 给 AI 看的工作流 + 踩坑清单</li>
+<li><a href="oj_share/oj_setup_assets/oj_checker.py">oj_checker.py</a> / <a href="oj_share/oj_setup_assets/oj_submit.py">oj_submit.py</a> / <a href="oj_share/oj_setup_assets/oj_config.py">oj_config.py</a> —— 三个核心脚本</li>
+</ul>
+
+<h2>十、打包</h2>
+<p>本页就在分享包根目录，同目录还有：</p>
+<ul>
+<li><code>OJ作业自动化配置助手.exe</code> —— 双击即用（约 7.9 MB，无需 Python）</li>
+<li><code>启动器.bat</code> —— 一键启动（要和 exe 同目录）</li>
+<li><code>oj_share/</code> —— 源码、技能包、脚本、文档</li>
+</ul>
+<p>整个包（含本页）压缩后约 7.6 MB，直接转发即可。</p>
+
+</body>
+</html>

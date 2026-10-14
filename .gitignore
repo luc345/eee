@@ -1,0 +1,22 @@
+# ===== 个人配置与运行状态：永远不要提交 =====
+config.json
+state.json
+vcode.gif
+cid*_problems.json
+code/
+tests/
+*.log
+
+# ===== Python 缓存 =====
+__pycache__/
+*.py[cod]
+
+# ===== 构建产物 / 编辑器 =====
+*.exe.bak
+.vs/
+*.user
+*.suo
+
+# ===== 临时文件 =====
+~$*
+*.tmp

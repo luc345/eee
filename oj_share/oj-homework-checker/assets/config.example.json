@@ -1,0 +1,35 @@
+{
+  "_说明": "所有个人信息与参数都集中在这一个文件里。改完保存即可，定时任务下次运行自动生效。也可以用命令改：python oj_config.py set <字段> <值>",
+  "_字段说明": {
+    "base_url": "OJ 站点地址",
+    "teachers": "老师姓名列表，可填多个（如 [\"填老师姓名\", \"王老师\"]）；优先于 teacher_filter",
+    "teacher_filter": "老师姓名（单个，兼容旧字段）",
+    "contest_password": "作业密码 / 竞赛密码（进入作业看题用，不是登录密码）",
+    "student_id": "学号，即 OJ 登录账号",
+    "student_password": "OJ 登录密码",
+    "student_name": "姓名（可选，仅备注，不上传）",
+    "contest_cid": "当前处理中的作业编号 cid，检测到新作业会自动更新",
+    "submit_language": "提交给 OJ 的语言，必须与本地编译实验代码所用语言一致",
+    "build_standard": "本地编译标准（对应 build_and_test.bat 里的 cl /std:c++17）",
+    "language": "作业要求的语言大类（如 C/C++），仅作兜底消歧用",
+    "max_pages": "检测时翻多少页作业列表",
+    "fetch_problems": "是否抓取题目详情与样例（true/false）",
+    "auto_submit": "检测到新作业后是否自动提交（true/false）"
+  },
+  "base_url": "http://114.55.147.180",
+  "student_name": "",
+  "student_id": "填你的学号",
+  "student_password": "填你的OJ登录密码",
+  "teachers": [
+    "填老师姓名"
+  ],
+  "teacher_filter": "填老师姓名",
+  "contest_password": "填你的作业密码",
+  "contest_cid": 0,
+  "submit_language": "C++",
+  "build_standard": "c++17",
+  "language": "C/C++",
+  "max_pages": 3,
+  "fetch_problems": true,
+  "auto_submit": true
+}
